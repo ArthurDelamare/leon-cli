@@ -1,0 +1,25 @@
+{
+  "name": "leon-cli",
+  "version": "1.0.0",
+  "description": "A CLI to create, upgrade package and other features",
+  "main": "leon-cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArthurDelamare/leon-cli.git"
+  },
+  "keywords": [
+    "CLI"
+  ],
+  "author": "Arthur Delamare",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArthurDelamare/leon-cli/issues"
+  },
+  "homepage": "https://github.com/ArthurDelamare/leon-cli#readme",
+  "dependencies": {
+    "commander": "^5.0.0"
+  }
+}
