@@ -1,7 +1,7 @@
 const fs = require('fs');
+const ncp = require('ncp').ncp;
 const path = require('path');
 const program = require('commander');
-
 
 program.version('0.0.1');
 
@@ -10,7 +10,7 @@ program
     .description('generate a package and its structure')
     .option('-f, --flat', 'determine if a folder has to created', false)
     .action(function(name, options) {
-        const packagePath = options.flat ? __dirname : path.join(__dirname, name);
+        const packagePath = options.flat ? process.cwd() : path.join(process.cwd(), name);
 
         const files = [
             path.join('config', 'config.json'),
@@ -27,6 +27,14 @@ program
                 throw new Error(`File at ${path.join(packagePath, element)} already exists.`);
             } 
         }
+
+        ncp.limit = 16;
+        ncp(path.join(__dirname, 'template'), packagePath, function(err) {
+            if (err) {
+                return console.error(err);
+              }
+              console.log('Template copied!');
+        })
 
 
     });
