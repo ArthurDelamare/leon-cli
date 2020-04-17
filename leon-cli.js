@@ -20,17 +20,19 @@ program
         const files = [
             path.join('config', 'config.json'),
             path.join('config', 'config.sample.json'),
-            path.join('data', 'answer', 'en'),
+            path.join('data', 'answers', 'en'),
             path.join('data', 'db', '.gitkeep'),
-            path.join('data', 'expression', 'en'),
+            path.join('data', 'expressions', 'en'),
             path.join('test', '.gitkeep'),
             'README.md',
             'version.txt'
         ];
 
         for (const language of options.spokenLanguages) {
-            files.push(path.join('data', 'answer', language));
-            files.push(path.join('data', 'expression', language));
+            if (language !== 'en') {
+                files.push(path.join('data', 'answers', language));
+                files.push(path.join('data', 'expressions', language));
+            }
         }
 
         for(const element of files) {
@@ -43,10 +45,18 @@ program
         ncp(path.join(__dirname, 'template', 'package'), packagePath, function(err) {
             if (err) {
                 return console.error(err);
-              }
-              console.log('Template copied!');
+            }
+
+            for(const language of options.spokenLanguages) {
+                if(language !== 'en') {
+                    langjson = path.join(__dirname, 'template', 'data', 'language.json');
+                    fs.copyFileSync(langjson,path.join(packagePath, 'data', 'answers', language + '.json'));
+                    fs.copyFileSync(langjson,path.join(packagePath, 'data', 'expressions', language + '.json'));
+                }
+            }
         })
 
+        
 
     });
 
