@@ -25,7 +25,7 @@ npm install
 ### generate-package
 Generate a package based on a name and options.
 
-leon **generate-package** *\<name\>*
+leon **generate-package** *\<name\>* \[*options*\]
 
 #### Arguments
 Argument | Description
@@ -35,8 +35,22 @@ name | The name of the package
 #### Options
 Option | Description
 ------------ | -------------
---flat=true\|false | When true, create the files at the top level without creating a folder<br><br>Default: false<br><br>Alias: -f
+--flat=true\|false | When true, create the files at the top level without creating a folder.<br><br>Default: false<br><br>Alias: -f
 --spoken-languages=string | Allow you to add languages for the expressions and answers. Repeat the option to add as many languages as you desire.<br><br>Default: \['en'\]<br><br>Alias: -s
 
-### Incoming features
-Under development
+## Incoming features
+### generate-module
+Generate a module based on a name and options.
+
+leon **generate-module** *\<name\>* \[*options*\]
+
+#### Arguments
+Argument | Description
+------------ | -------------
+name | The name of the module
+
+#### Options
+Option | Description
+------------ | -------------
+--skip-tests=true\|false | When true, skip the creation of test files.<br><br>Default: false<br><br>Alias: -s
+--programming-language=string | Allow you to choose the programming language of the generated module.<br><br>Default: python<br><br>Alias: -p
