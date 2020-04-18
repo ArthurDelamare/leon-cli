@@ -2,14 +2,14 @@
 
 ## What is this project?
 The purpose of this project is to create and manipulate packages of the personal assistant [Leon](https://github.com/leon-ai/leon) by using a CLI. 
+
 For now, the development is still at an early stage.
 
-## Getting started
-### Prerequisites
+## Prerequisites
 - [Node.js](https://nodejs.org/en/) >= 10
 - npm >= 5
 
-### Installation
+## Installation
 ```bash
 # Clone the repository
 git clone -b master https://github.com/ArthurDelamare/leon-cli.git
@@ -21,8 +21,22 @@ cd leon-cli
 npm install
 ```
 
-### Current features
-Under development
+## Current features
+### generate-package
+Generate a package based on a name and options.
+
+leon **generate-package** *\<name\>*
+
+#### Arguments
+Argument | Description
+------------ | -------------
+name | The name of the package
+
+#### Options
+Option | Description
+------------ | -------------
+--flat=true\|false | When true, create the files at the top level without creating a folder<br><br>Default: false<br><br>Alias: -f
+--spoken-languages=string | Allow you to add languages for the expressions and answers. Repeat the option to add as many languages as you desire.<br><br>Default: \['en'\]<br><br>Alias: -s
 
 ### Incoming features
 Under development
