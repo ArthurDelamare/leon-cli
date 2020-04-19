@@ -5,9 +5,27 @@ const program = require('commander');
 
 program.version('0.0.1');
 
+/**
+ * @description used to catch the language from the spoken-languages option and concatenate it to the package language list
+ * @param {string} language short version of a language name (example: 'en')
+ * @param {string[]} languageList list of languages
+ */
 function addLanguage(language, languageList) {
     return languageList.concat([language])
 }
+
+/**
+ * @description check the structure of the package and return an error if it is not valid
+ * @param {string[]} files a list of files path
+ * @param {function} errorMessage the description of the error, displayed after the file path
+ */
+function checkPackageStructure(files, errorMessage) {
+    for(const element of files) {
+        if (fs.existsSync(path.join(packagePath, element))) {
+            throw new Error(`${path.join(packagePath, element)}: ${errorMessage}`);
+        } 
+    }
+} 
 
 program
     .command('generate-package <name>')
@@ -59,5 +77,18 @@ program
         
 
     });
+
+program
+    .command('generate-module <name>')
+    .description('generate a module based on a name and its test')
+    .option('-s, --skip-tests', 'when true, skip the creation of test files', false)
+    .option('-p, --programming-language', 'allow you to choose the programming language of the generated module', 'python')
+    .action(function(name, options) {
+        const packagePath = process.cwd();
+        console.log(packagePath);
+    });
+
+
+
 
 program.parse(process.argv);
