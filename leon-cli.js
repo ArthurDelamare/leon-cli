@@ -15,16 +15,52 @@ function addLanguage(language, languageList) {
 }
 
 /**
+ * @description return true if the directory exists and contains at least one element, return false otherwise
+ * @param {string} path path of the directory to check
+ */
+function isDirectoryEmpty(path) {
+    if (!fs.existsSync(path)) {
+        return true;
+    }
+    return fs.readdirSync(path).length === 0;
+}
+
+/**
  * @description check the structure of the package and return an error if it is not valid
  * @param {string[]} files a list of files path
  * @param {function} errorMessage the description of the error, displayed after the file path
  */
-function checkPackageStructure(files, errorMessage) {
-    for(const element of files) {
-        if (fs.existsSync(path.join(packagePath, element))) {
-            throw new Error(`${path.join(packagePath, element)}: ${errorMessage}`);
+function checkPackageStructure() {
+    // individual files check
+    const packagePath = process.cwd();
+
+    const files = [
+        path.join('config', 'config.json'),
+        path.join('config', 'config.sample.json'),
+        'README.md',
+        'version.txt'
+    ];
+    for (const file of files) {
+        if (!fs.existsSync(path.join(packagePath, file))) {
+            return console.error(`File at ${path.join(packagePath, file)} is missing.`);
         } 
     }
+
+    // directory check
+    const directories = [
+        'data',
+        'test',
+        path.join('data', 'answers'),
+        path.join('data', 'db'),
+        path.join('data', 'expressions'),
+    ];
+    for (directory of directories) {
+        if (isDirectoryEmpty(path.join(packagePath, directory))) {
+            return console.error(`Directory at ${path.join(packagePath, directory)} is empty or missing.`);
+        }
+    }
+
+    return console.log('Package check succesful.');
 } 
 
 program
@@ -84,8 +120,7 @@ program
     .option('-s, --skip-tests', 'when true, skip the creation of test files', false)
     .option('-p, --programming-language', 'allow you to choose the programming language of the generated module', 'python')
     .action(function(name, options) {
-        const packagePath = process.cwd();
-        console.log(packagePath);
+        checkPackageStructure()
     });
 
 
