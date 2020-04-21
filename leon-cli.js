@@ -160,6 +160,51 @@ program
             })
         })
 
+        // Modify answers files
+        const answersPath = path.join(packagePath, 'data', 'answers');
+        fs.readdir(answersPath, function (error, files) {
+            // handling error
+            if (error) {
+                return console.log('Unable to scan directory: ' + error);
+            } 
+
+            // add module to each file
+            files.forEach(function (file) {
+                jsonReader(path.join(answersPath, file), (err, answers) => {
+                    if (err) {
+                        console.error('Error reading file:',err)
+                        return
+                    }
+                    answers[name] = {}
+                    fs.writeFile(path.join(answersPath, file), JSON.stringify(answers, null, 4), (err) => {
+                        if (err) console.log('Error writing file:', err)
+                    })
+                })
+            });
+        });
+
+        // Modify expressions files
+        const expressionsPath = path.join(packagePath, 'data', 'expressions');
+        fs.readdir(expressionsPath, function (error, files) {
+            // handling error
+            if (error) {
+                return console.log('Unable to scan directory: ' + error);
+            } 
+
+            // add module to each file
+            files.forEach(function (file) {
+                jsonReader(path.join(expressionsPath, file), (err, expressions) => {
+                    if (err) {
+                        console.error('Error reading file:',err)
+                        return
+                    }
+                    expressions[name] = {}
+                    fs.writeFile(path.join(expressionsPath, file), JSON.stringify(expressions, null, 4), (err) => {
+                        if (err) console.log('Error writing file:', err)
+                    })
+                })
+            });
+        });
 
     });
 
