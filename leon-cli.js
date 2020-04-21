@@ -60,7 +60,7 @@ function checkPackageStructure() {
         }
     }
 
-    return console.log('Package check succesful.');
+    return console.log('Package structure is correct.');
 } 
 
 program
@@ -114,13 +114,53 @@ program
 
     });
 
+function jsonReader(filePath, callback) {
+    fs.readFile(filePath, (error, fileData) => {
+        if (error) {
+            return callback && callback(error)
+        }
+        try {
+            const object = JSON.parse(fileData)
+            return callback && callback(null, object)
+        } catch(error) {
+            return callback && callback(error)
+        }
+    })
+}
+
 program
     .command('generate-module <name>')
     .description('generate a module based on a name and its test')
     .option('-s, --skip-tests', 'when true, skip the creation of test files', false)
     .option('-p, --programming-language', 'allow you to choose the programming language of the generated module', 'python')
     .action(function(name, options) {
-        checkPackageStructure()
+        checkPackageStructure();
+
+        const packagePath = process.cwd();
+
+        // Modify config.json and config.sample.json
+        jsonReader(path.join(packagePath, 'config', 'config.json'), (err, config) => {
+            if (err) {
+                console.error('Error reading file:',err)
+                return
+            }
+            config[name] = { options: {}}
+            fs.writeFile(path.join(packagePath, 'config', 'config.json'), JSON.stringify(config, null, 4), (err) => {
+                if (err) console.log('Error writing file:', err)
+            })
+        })
+        jsonReader(path.join(packagePath, 'config', 'config.sample.json'), (err, config) => {
+            if (err) {
+                console.error('Error reading file:',err)
+                return
+            }
+            config[name] = { options: {}}
+            fs.writeFile(path.join(packagePath, 'config', 'config.sample.json'), JSON.stringify(config, null, 4), (err) => {
+                if (err) console.log('Error writing file:', err)
+            })
+        })
+
+
     });
 
 
