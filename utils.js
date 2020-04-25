@@ -15,6 +15,11 @@ function isDirectoryEmpty(path) {
     return fs.readdirSync(path).length === 0;
 }
 
+/**
+ * @description read a json and execute a callback taking the error and the data as parameters
+ * @param {string} filePath path of the json to read
+ * @param {function} callback call the callback function
+ */
 function jsonReader(filePath, callback) {
     fs.readFile(filePath, (error, fileData) => {
         if (error) {
@@ -29,6 +34,12 @@ function jsonReader(filePath, callback) {
     })
 }
 
+/**
+ * 
+ * @param {string} filepath path of the json to update
+ * @param {string} key key to use to add the value
+ * @param {any} value value to add to the json
+ */
 function addValueToJson(filepath, key, value) {
     jsonReader((filepath), (error, data) => {
         if (error) {
@@ -42,6 +53,11 @@ function addValueToJson(filepath, key, value) {
     })
 } 
 
+/**
+ * @description compile a template with the values to change, then return the content as a string
+ * @param {string} templateFile content of a handlebars template file as a string
+ * @param {object} values object containing the values to change in the handlebars template file
+ */
 function getStringFromTemplate(templateFile, values) {
     const template = handlebars.compile(templateFile);
     return template(values);

@@ -178,7 +178,6 @@ program
             })
         }
 
-        console.log(options.programmingLanguage);
         if (options.programmingLanguage === 'python') {
             fs.readFile(path.join(__dirname, 'template', 'module', 'python.hbs'), 'utf8', (err, data) => {
                 if (err) {
