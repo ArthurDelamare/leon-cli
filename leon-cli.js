@@ -110,7 +110,7 @@ program
     .command('generate-module <name>')
     .description('generate a module based on a name and its test')
     .option('-s, --skip-tests', 'when true, skip the creation of test files', false)
-    .option('-p, --programming-language', 'allow you to choose the programming language of the generated module', 'python')
+    .option('-p, --programming-language <language>', 'allow you to choose the programming language of the generated module', 'python')
     .action(function(name, options) {
         checkPackageStructure();
 
@@ -175,6 +175,27 @@ program
                 fs.writeFile(path.join(packagePath, 'test', `${name}.spec.js`), testContent, 'utf8', (err) => {
                     if (err) throw err;
                 });
+            })
+        }
+
+        console.log(options.programmingLanguage);
+        if (options.programmingLanguage === 'python') {
+            fs.readFile(path.join(__dirname, 'template', 'module', 'python.hbs'), 'utf8', (err, data) => {
+                if (err) {
+                  console.error(err);
+                  return;
+                }
+                const templateValues = {
+                    answer: 'example'
+                };
+                const template = utils.getStringFromTemplate(data, templateValues);
+                const moduleContent = new Uint8Array(Buffer.from(template));
+                fs.writeFile(path.join(packagePath, `${name}.py`), moduleContent, 'utf8', (err) => {
+                    if (err) throw err;
+                });
+
+                // write the __init__ python file
+                fs.closeSync(fs.openSync(path.join(packagePath, '__init__.py'), 'w'));
             })
         }
     });
