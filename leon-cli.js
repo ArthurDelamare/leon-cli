@@ -18,17 +18,6 @@ function addLanguage(language, languageList) {
 }
 
 /**
- * @description return true if the directory exists and contains at least one element, return false otherwise
- * @param {string} path path of the directory to check
- */
-function isDirectoryEmpty(path) {
-    if (!fs.existsSync(path)) {
-        return true;
-    }
-    return fs.readdirSync(path).length === 0;
-}
-
-/**
  * @description check the structure of the package and return an error if it is not valid
  * @param {string[]} files a list of files path
  * @param {function} errorMessage the description of the error, displayed after the file path
@@ -58,7 +47,7 @@ function checkPackageStructure() {
         path.join('data', 'expressions'),
     ];
     for (const directory of directories) {
-        if (isDirectoryEmpty(path.join(packagePath, directory))) {
+        if (utils.isDirectoryEmpty(path.join(packagePath, directory))) {
             return console.error(`Directory at ${path.join(packagePath, directory)} is empty or missing.`);
         }
     }

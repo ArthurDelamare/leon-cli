@@ -4,6 +4,17 @@ const fs = require('fs');
 const handlebars = require("handlebars");
 const path = require('path');
 
+/**
+ * @description return true if the directory exists and contains at least one element, return false otherwise
+ * @param {string} path path of the directory to check
+ */
+function isDirectoryEmpty(path) {
+    if (!fs.existsSync(path)) {
+        return true;
+    }
+    return fs.readdirSync(path).length === 0;
+}
+
 function jsonReader(filePath, callback) {
     fs.readFile(filePath, (error, fileData) => {
         if (error) {
@@ -39,3 +50,4 @@ function getStringFromTemplate(templateFile, values) {
 exports.jsonReader = jsonReader;
 exports.addValueToJson = addValueToJson
 exports.getStringFromTemplate = getStringFromTemplate
+exports.isDirectoryEmpty = isDirectoryEmpty
