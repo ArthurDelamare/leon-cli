@@ -1,0 +1,13 @@
+'use strict'
+
+describe('{{module}}', async () => {
+  test('{{description}}', async () => {
+    global.nlu.brain.execute = jest.fn()
+    await global.nlu.process('{{expression}}')
+
+    const [obj] = global.nlu.brain.execute.mock.calls
+    await global.brain.execute(obj[0])
+
+    expect(global.brain.finalOutput.codes).toIncludeSameMembers(['{{answer}}'])
+  })
+})
